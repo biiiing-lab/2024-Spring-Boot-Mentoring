@@ -3,6 +3,7 @@ package org.example.tutoring;
 import lombok.RequiredArgsConstructor;
 import org.example.tutoring.dto.BasicResponse;
 import org.example.tutoring.dto.JoinRequest;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -14,8 +15,13 @@ public class MemberService {
     private final PasswordEncoder passwordEncoder;
 
     public ResponseEntity<BasicResponse> joinMember(JoinRequest request) {
+
         String username = request.getUsername();
         String password = request.getPassword();
+
+        if(memberRepository.existsByUsername(username)) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new BasicResponse("중복 회원 있음"));
+        } // 24.09.23 : 증복 회원 방지 유효성 검사
 
         Member member = Member.builder()
                 .username(username)
