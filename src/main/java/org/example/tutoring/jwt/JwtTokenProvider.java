@@ -40,6 +40,7 @@ public class JwtTokenProvider {
 
     // 첫 로그인 시 토큰 생성
     public ResponseEntity<TokenResponse> createToken(LoginRequest request) {
+
         long now = (new Date()).getTime();
 
         // 토큰 회원 정보 찾기
@@ -47,6 +48,7 @@ public class JwtTokenProvider {
 
         // Access Token 생성
         Date accessTokenExpiresIn = new Date(now + 86400000);
+
         String accessToken = Jwts.builder()
                 .setSubject(member.getUsername())
                 .claim("memberInfo", createClaims(member))

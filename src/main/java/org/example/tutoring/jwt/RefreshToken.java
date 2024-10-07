@@ -19,6 +19,6 @@ public class RefreshToken {
     private String tokenDetail;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "userNo")
+    @JoinColumn(name = "userId")
     Member member;
 }

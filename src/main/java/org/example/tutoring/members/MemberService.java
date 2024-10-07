@@ -27,7 +27,7 @@ public class MemberService {
 
         if(memberRepository.existsByUsername(username)) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new BasicResponse("중복 회원 있음"));
-        } // 24.09.23 : 증복 회원 방지 유효성 검사
+        } // 24.09.23 : 중복 회원 방지 유효성 검사
 
         Member member = Member.builder()
                 .username(username)
