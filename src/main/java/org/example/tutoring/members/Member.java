@@ -1,4 +1,4 @@
-package org.example.tutoring;
+package org.example.tutoring.members;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

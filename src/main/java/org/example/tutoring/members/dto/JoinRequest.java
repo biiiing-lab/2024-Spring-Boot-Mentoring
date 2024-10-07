@@ -1,4 +1,4 @@
-package org.example.tutoring.dto;
+package org.example.tutoring.members.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

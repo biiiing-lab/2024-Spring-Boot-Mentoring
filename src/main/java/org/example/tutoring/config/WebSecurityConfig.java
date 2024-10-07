@@ -1,6 +1,8 @@
 package org.example.tutoring.config;
 
 import lombok.RequiredArgsConstructor;
+import org.example.tutoring.jwt.JwtAuthenticationFilter;
+import org.example.tutoring.jwt.JwtTokenProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -15,18 +17,21 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration // 설정 파일
 @EnableWebSecurity
+@RequiredArgsConstructor
 public class WebSecurityConfig {
+    private final JwtTokenProvider tokenProvider;
 
     @Bean  // 24.09.23 : filter Chain으로 사전 처리
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(
-                        authorization -> authorization.requestMatchers("/auth/login").permitAll() // 로그인 경로 허용
+                        authorization -> authorization.requestMatchers("/login").permitAll() // 로그인 경로 허용
                                 .requestMatchers("/join").permitAll() // 회원가입 경로 허용
                                 .anyRequest().authenticated())
                 .httpBasic(AbstractHttpConfigurer::disable)
                 .formLogin(AbstractHttpConfigurer::disable)
+                .addFilterBefore(new JwtAuthenticationFilter(tokenProvider), UsernamePasswordAuthenticationFilter.class)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .build();
     }
