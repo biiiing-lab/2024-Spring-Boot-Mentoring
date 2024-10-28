@@ -18,7 +18,7 @@ public class RefreshToken {
     private Long refreshTokenNo;
     private String tokenDetail;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @OneToOne
     @JoinColumn(name = "userId")
     Member member;
 }

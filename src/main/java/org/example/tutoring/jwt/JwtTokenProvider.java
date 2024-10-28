@@ -31,7 +31,9 @@ public class JwtTokenProvider {
     private final MemberRepository memberRepository;
     private final RefreshTokenRepository refreshTokenRepository;
 
-    public JwtTokenProvider(@Value("${jwt.token.key}") String secretKey, MemberRepository memberRepository, RefreshTokenRepository refreshTokenRepository) {
+    public JwtTokenProvider(@Value("${jwt.token.key}") String secretKey,
+                            MemberRepository memberRepository,
+                            RefreshTokenRepository refreshTokenRepository) {
         byte[] keyBytes = Decoders.BASE64.decode(secretKey);
         this.key = Keys.hmacShaKeyFor(keyBytes);
         this.memberRepository = memberRepository;
@@ -41,10 +43,9 @@ public class JwtTokenProvider {
     // 첫 로그인 시 토큰 생성
     public ResponseEntity<TokenResponse> createToken(LoginRequest request) {
 
-        long now = (new Date()).getTime();
-
         // 토큰 회원 정보 찾기
         Member member = memberRepository.findByUsername(request.getUsername()).orElseThrow();
+        long now = (new Date()).getTime();
 
         // Access Token 생성
         Date accessTokenExpiresIn = new Date(now + 86400000);
@@ -65,13 +66,13 @@ public class JwtTokenProvider {
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
 
-        // Refresh Token 빌드 및 저장
-        RefreshToken refreshTokenEntity = RefreshToken.builder()
-                .tokenDetail(refreshToken)
-                .member(member)
-                .build();
-
-        refreshTokenRepository.save(refreshTokenEntity);
+//        // Refresh Token 빌드 및 저장
+//        RefreshToken refreshTokenEntity = RefreshToken.builder()
+//                .tokenDetail(refreshToken)
+//                .member(member)
+//                .build();
+//
+//        refreshTokenRepository.save(refreshTokenEntity);
 
         return ResponseEntity.ok(new TokenResponse(accessToken, refreshToken));
     }
@@ -157,7 +158,7 @@ public class JwtTokenProvider {
                     .parseClaimsJws(token);
             return true;
         } catch (io.jsonwebtoken.security.SecurityException | MalformedJwtException e) {
-            log.info("Invalid JWT Token", e);
+            log.info("접근 안 됨", e);
         } catch (ExpiredJwtException e) {
             log.info("Expired JWT Token", e);
         } catch (UnsupportedJwtException e) {

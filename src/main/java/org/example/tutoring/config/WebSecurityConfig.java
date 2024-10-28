@@ -19,6 +19,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class WebSecurityConfig {
+
     private final JwtTokenProvider tokenProvider;
 
     @Bean  // 24.09.23 : filter Chain으로 사전 처리
