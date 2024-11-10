@@ -42,14 +42,12 @@ public class PostService {
 
     // 게시글 세부 내용 보기
     public ResponseEntity<PostResponse> postDetail(Long postId) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        Member member = memberRepository.findByUsername(authentication.getName()).orElseThrow();
-        Post post = postRepository.findById(postId).orElseThrow();
+       Post post = postRepository.findById(postId).orElseThrow();
 
         PostResponse postResponse = PostResponse.builder()
                 .title(post.getTitle())
                 .content(post.getContent())
-                .postMember(member.getUsername())
+                .postMember(post.getMember().getUsername())
                 .createDate(post.getPostResisterDate())
                 .build();
 

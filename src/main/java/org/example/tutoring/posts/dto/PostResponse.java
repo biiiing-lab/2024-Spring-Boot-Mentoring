@@ -12,6 +12,6 @@ import java.time.LocalDateTime;
 public class PostResponse {
     private String title;
     private String content;
-    private String postMember;
+    private String postMember; // 작성자
     private LocalDateTime createDate;
 }

@@ -20,8 +20,8 @@ public class Post {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long postId;
 
-    private String title;
-    private String content;
+    private String title; // 제목
+    private String content; // 내용
 
     // 작성자 조인
     @ManyToOne

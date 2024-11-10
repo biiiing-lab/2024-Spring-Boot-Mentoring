@@ -18,19 +18,19 @@ public class PostController {
 
     private final PostService postService;
 
-    // 게시글 작성
+    // 게시글 작성 localhost:8080/post
     @PostMapping("")
     public ResponseEntity<BasicResponse> post(@RequestBody PostRequest postRequest) {
         return postService.post(postRequest);
     }
 
-    // 게시글 세부 내용 보기
+    // 게시글 세부 내용 보기 localhost:8080/post/{postId}
     @GetMapping("/{postId}")
     public ResponseEntity<PostResponse> postDetail(@PathVariable Long postId) {
         return postService.postDetail(postId);
     }
 
-    // 게시글 전체 리스트 가져오기
+    // 게시글 전체 리스트 가져오기 localhost:8080/post/all
     @GetMapping("/all")
     public ResponseEntity<List<PostListResponse>> allPost() {
         List<PostListResponse> postListResponses = postService.allPost();
@@ -43,7 +43,7 @@ public class PostController {
         return postService.updatePost(postId, postUpdate);
     }
 
-    // 게시글 삭제
+    // 게시글 삭제 localhost:8080/post/delete/{postId}
     @DeleteMapping("/delete/{postId}")
     public ResponseEntity<BasicResponse> deletePost(@PathVariable Long postId) {
         return postService.deletePost(postId);

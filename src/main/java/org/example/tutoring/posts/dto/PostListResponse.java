@@ -14,4 +14,5 @@ public class PostListResponse {
     private String title;
     private String postMember;
     private LocalDateTime createDate;
+    // 내용은 제외함
 }
